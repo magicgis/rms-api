@@ -1,5 +1,6 @@
 package com.rms.api.web;
 
+import java.security.MessageDigest;
 import java.util.UUID;
 
 import org.apache.http.HttpResponse;
@@ -39,7 +40,7 @@ public class SmsController {
             entity.setContentType("application/json");
 			post.setEntity(entity);
 			HttpResponse result = httpClient.execute(post);
-			String resData = EntityUtils.toString(result.getEntity());
+			String resData = EntityUtils.toString(result.getEntity(),"UTF-8");
 			log.info("resData:"+resData);
 		} catch (Exception e) {
 			log.error("send sms error:",e);
@@ -47,14 +48,28 @@ public class SmsController {
 		return "test";
 	}
 	
-	protected JSONObject getJsonParam() {
+	protected JSONObject getJsonParam() throws Exception {
 		JSONObject jsonParam = new JSONObject();
 		jsonParam.put("account", this.account);
-		jsonParam.put("password", this.password);
+		jsonParam.put("password", md5(this.password));
 		jsonParam.put("msgid", UUID.randomUUID().toString().replaceAll("-", ""));
-		jsonParam.put("phones", "13621952122");
+		jsonParam.put("phones", "13817599025,13918547182,13621952122");
 		jsonParam.put("content", "唐巢短信测试");
 		jsonParam.put("sign", "【唐巢人才公寓】");
 		return jsonParam;
+	}
+	
+	private String md5(String password) throws Exception {
+		String result = "";
+		MessageDigest md = MessageDigest.getInstance("MD5");
+        byte bytes[] = md.digest(password.getBytes());
+		for (int i = 0; i < bytes.length; i++) {
+            String str = Integer.toHexString(bytes[i] & 0xFF);
+            if (str.length() == 1) {
+                str += "F";
+            }
+            result += str;
+        }
+		return result;
 	}
 }
