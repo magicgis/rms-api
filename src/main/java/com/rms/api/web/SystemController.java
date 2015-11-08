@@ -24,7 +24,9 @@ public class SystemController extends BaseController{
 	@RequestMapping(value="check_code")
 	@ResponseBody
 	public String check_code(@RequestBody  String params) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/check_code", params);
+		String res = HttpClientUtil.doPost(getRmsUrl(), "system/check_code", params);
+		
+		return res;
 	}
 	
 	@RequestMapping(value="login/pwd")
