@@ -53,7 +53,7 @@ public class SmsController {
 		jsonParam.put("account", this.account);
 		jsonParam.put("password", md5(this.password));
 		jsonParam.put("msgid", UUID.randomUUID().toString().replaceAll("-", ""));
-		jsonParam.put("phones", "13817599025,13918547182,13621952122");
+		jsonParam.put("phones", "15618820709");
 		jsonParam.put("content", "唐巢短信测试");
 		jsonParam.put("sign", "【唐巢人才公寓】");
 		return jsonParam;

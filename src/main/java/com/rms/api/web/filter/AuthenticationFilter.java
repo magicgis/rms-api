@@ -16,9 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.rms.api.web.entity.ResponseData;
+import com.rms.api.web.util.HttpClientUtil;
 import com.rms.api.web.util.JsonUtil;
 
-public class AuthenticationFilter implements Filter {
+public class AuthenticationFilter implements Filter{
 	Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
 	
 	@Override
@@ -36,8 +37,17 @@ public class AuthenticationFilter implements Filter {
 		HttpServletResponse httpResonse = (HttpServletResponse)response;
 		httpResonse.setCharacterEncoding("utf-8");
 		String token = httpRequest.getHeader("token");
+		String url = httpRequest.getRequestURI();
+
+		boolean isRegisterOrLogin = url.endsWith("register") 
+				|| url.endsWith("login/code") 
+				|| url.endsWith("login/pwd")
+				|| url.endsWith("sms/send");
+		
+		
+		
 		//TODO:
-		if(false) {
+		if(true ) {
 			
 			chain.doFilter(request, response);
 		} else {
@@ -60,6 +70,12 @@ public class AuthenticationFilter implements Filter {
 	public void init(FilterConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	//TODO
+	private boolean checkToken(String token){
+		//String res = HttpClientUtil.doPost("/checkToken", token);
+		return true;
 	}
 
 }

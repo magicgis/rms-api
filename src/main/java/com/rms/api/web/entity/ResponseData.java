@@ -3,6 +3,10 @@ package com.rms.api.web.entity;
 import java.io.Serializable;
 
 public class ResponseData implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7718224551196012271L;
 	private String code;
 	private String msg;
 	private String data;
