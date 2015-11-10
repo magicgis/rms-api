@@ -1,5 +1,7 @@
 package com.rms.api.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,7 +19,7 @@ public class SelfController extends BaseController {
 
 	@RequestMapping(value = "pwd")
 	@ResponseBody
-	public String changePwd(@RequestBody  String params) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/self/pwd", params);
+	public String changePwd(HttpServletRequest request) {
+		return HttpClientUtil.doPost(getRmsUrl(), "system/self/pwd", request);
 	}
 }

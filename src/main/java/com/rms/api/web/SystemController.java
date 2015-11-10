@@ -1,8 +1,12 @@
 package com.rms.api.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,28 +21,27 @@ public class SystemController extends BaseController{
 
 	@RequestMapping(value="register")
 	@ResponseBody
-	public String register(@RequestBody  String params) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/register", params);		
+	public String register(HttpServletRequest request) {
+		return HttpClientUtil.doPost(getRmsUrl(), "system/register", request);		
 	}
 	
 	@RequestMapping(value="check_code")
 	@ResponseBody
-	public String check_code(@RequestBody  String params) {
-		String res = HttpClientUtil.doPost(getRmsUrl(), "system/check_code", params);
-		
+	public String check_code(HttpServletRequest request) {
+		String res = HttpClientUtil.doPost(getRmsUrl(), "system/check_code", request);
 		return res;
 	}
 	
 	@RequestMapping(value="login/pwd")
 	@ResponseBody
-	public String loginWithPwd(@RequestBody  String params) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/login/pwd", params);
+	public String loginWithPwd(HttpServletRequest request) {
+		return HttpClientUtil.doPost(getRmsUrl(), "system/login/pwd", request);
 	}
 	
 	@RequestMapping(value="login/code")
 	@ResponseBody
-	public String loginWithCode(@RequestBody  String params) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/login/code", params);
+	public String loginWithCode(HttpServletRequest request) {
+		return HttpClientUtil.doPost(getRmsUrl(), "system/login/code", request);
 		
 	}
 
