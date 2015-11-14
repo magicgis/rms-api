@@ -60,10 +60,16 @@ public class HttpClientUtil {
 		        }
 		      }
 		    };
+		    if(request.getAttribute("mobile")!=null){
+		    	formparams.add(new BasicNameValuePair("mobile", (String) request.getAttribute("mobile")));
+		    }
 			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");;
 			post.setEntity(entity);
+			post.setHeader("token", request.getHeader("token"));
 			HttpResponse result = httpClient.execute(post);
+			//log.debug("returned data:" + EntityUtils.toString(result.getEntity(), "GBK"));
 			json = EntityUtils.toString(result.getEntity(),"UTF-8");
+			log.debug("returned data:" + json);
 			
 		} catch (Exception e) {
 			log.error("call dopost error:",e);

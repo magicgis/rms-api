@@ -2,6 +2,7 @@ package com.rms.api.web.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.util.StringUtils;
 
 import com.rms.api.web.entity.ResponseData;
 import com.rms.api.web.util.HttpClientUtil;
@@ -38,23 +43,54 @@ public class AuthenticationFilter implements Filter{
 		httpResonse.setCharacterEncoding("utf-8");
 		String token = httpRequest.getHeader("token");
 		String url = httpRequest.getRequestURI();
+		
+		boolean isValidToken = true;
 
 		boolean isRegisterOrLogin = url.endsWith("register") 
 				|| url.endsWith("login/code") 
 				|| url.endsWith("login/pwd")
 				|| url.endsWith("sms/send");
+		Resource resource = new ClassPathResource("/application.properties");
+		Properties props = PropertiesLoaderUtils.loadProperties(resource);
+		String escapeTokenFunctions =  props.getProperty("token.escape");
+		log.debug(escapeTokenFunctions);
+		boolean escapeToken = escapeTokenFunctions.contains(httpRequest.getServletPath());
+		if(!escapeToken){
+			log.debug("checking token");
+			//验证TOKEN，通过返回手机号，否则为null
+			if(token== null){
+				PrintWriter writer = httpResonse.getWriter();
+				ResponseData data = new ResponseData(); 
+				data.setCode("400");
+				data.setMsg("no token");
+				writer.write(JsonUtil.object2Json(data));
+				try {
+					writer.flush();
+					writer.close();
+				} catch (Exception e) {
+					log.error("",e);
+				}
+				isValidToken = false;
+			}else{
+				String rms_url = props.getProperty("rms.url");
+				String phone = HttpClientUtil.doPost(rms_url, "system/checkToken", httpRequest);
+				log.debug("fetched phone by token:" + phone);
+				if(phone == null || phone.length()==0){
+					isValidToken = false;
+				}else{
+					isValidToken = true;
+					request.setAttribute("mobile", phone);	
+				}
+			}
+		}
 		
-		
-		
-		//TODO:
-		if(true ) {
-			
+		if(isValidToken){
 			chain.doFilter(request, response);
-		} else {
+		}else{
 			PrintWriter writer = httpResonse.getWriter();
 			ResponseData data = new ResponseData(); 
 			data.setCode("401");
-			data.setMsg("token无效");
+			data.setMsg("请重新登陆");
 			writer.write(JsonUtil.object2Json(data));
 			try {
 				writer.flush();
@@ -63,6 +99,9 @@ public class AuthenticationFilter implements Filter{
 				log.error("",e);
 			}
 		}
+		
+		
+		
 		log.info("end authentic......");
 	}
 
