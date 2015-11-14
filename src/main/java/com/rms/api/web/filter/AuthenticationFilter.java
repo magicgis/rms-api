@@ -46,15 +46,14 @@ public class AuthenticationFilter implements Filter{
 		
 		boolean isValidToken = true;
 
-		boolean isRegisterOrLogin = url.endsWith("register") 
-				|| url.endsWith("login/code") 
-				|| url.endsWith("login/pwd")
-				|| url.endsWith("sms/send");
 		Resource resource = new ClassPathResource("/application.properties");
 		Properties props = PropertiesLoaderUtils.loadProperties(resource);
+		//取不需要验证TOKEN的功能
 		String escapeTokenFunctions =  props.getProperty("token.escape");
 		log.debug(escapeTokenFunctions);
+		//判读是否需要验证TOKEN
 		boolean escapeToken = escapeTokenFunctions.contains(httpRequest.getServletPath());
+		
 		if(!escapeToken){
 			log.debug("checking token");
 			//验证TOKEN，通过返回手机号，否则为null
