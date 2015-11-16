@@ -1,4 +1,4 @@
-package com.rms.api.web;
+package com.rms.api.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

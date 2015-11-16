@@ -1,4 +1,4 @@
-package com.rms.api.web;
+package com.rms.api.web.controller;
 
 import java.security.MessageDigest;
 import java.util.UUID;
