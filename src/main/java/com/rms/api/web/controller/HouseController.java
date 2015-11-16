@@ -18,7 +18,7 @@ import com.rms.api.web.util.JsonUtil;
 @Controller
 @RequestMapping("house")
 public class HouseController {
-	@RequestMapping(value="list",method=RequestMethod.GET)
+	@RequestMapping(value="list",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String list(Integer p_n,Integer p_c) {
 		if(p_n == null || p_c == null) {
@@ -53,7 +53,7 @@ public class HouseController {
 		return JsonUtil.object2Json(map);
 	}
 	
-	@RequestMapping(value="ad",method=RequestMethod.GET)
+	@RequestMapping(value="ad",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String ad() {
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -82,7 +82,7 @@ public class HouseController {
 		return JsonUtil.object2Json(map);
 	}
 	
-	@RequestMapping(value="info",method=RequestMethod.GET)
+	@RequestMapping(value="info",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String info(String house_id) {
 		if(StringUtils.isEmpty(house_id)) {
@@ -112,7 +112,7 @@ public class HouseController {
 		return JsonUtil.object2Json(map);
 	}
 	
-	@RequestMapping(value="booking",method=RequestMethod.POST)
+	@RequestMapping(value="booking",method=RequestMethod.POST,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String booking(String house_id,String b_time,String b_name,String phone,
 			@RequestParam(required=false)Integer sex,@RequestParam(required=false)String msg) {
@@ -128,7 +128,7 @@ public class HouseController {
 		return JsonUtil.object2Json(data);
 	}
 	
-	@RequestMapping(value="booking/list",method=RequestMethod.GET)
+	@RequestMapping(value="booking/list",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String bookingList() {
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -146,7 +146,7 @@ public class HouseController {
 		return JsonUtil.object2Json(map);
 	}
 	
-	@RequestMapping(value="booking/order",method=RequestMethod.GET)
+	@RequestMapping(value="booking/order",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String bookingOrder(String house_id) {
 		if(StringUtils.isEmpty(house_id)) {
@@ -161,7 +161,7 @@ public class HouseController {
 		return JsonUtil.object2Json(map);
 	}
 	
-	@RequestMapping(value="booking/info",method=RequestMethod.GET)
+	@RequestMapping(value="booking/info",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String bookingInfo(String house_id) {
 		if(StringUtils.isEmpty(house_id)) {
@@ -185,7 +185,7 @@ public class HouseController {
 		return JsonUtil.object2Json(map);
 	}
 	
-	@RequestMapping(value="booking/cancel",method=RequestMethod.POST)
+	@RequestMapping(value="booking/cancel",method=RequestMethod.POST,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String bookingCancel(String house_id) {
 		ResponseData data = new ResponseData();
@@ -198,7 +198,7 @@ public class HouseController {
 		return JsonUtil.object2Json(data);
 	}
 	
-	@RequestMapping(value="booking/booked",method=RequestMethod.POST)
+	@RequestMapping(value="booking/booked",method=RequestMethod.POST,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String bookingBooked(String house_id) {
 		ResponseData data = new ResponseData();
