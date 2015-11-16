@@ -18,14 +18,16 @@ import com.rms.api.web.util.JsonUtil;
 @Controller
 @RequestMapping("house")
 public class HouseController {
-	@RequestMapping(value="list",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
-	public String list(Integer p_n,Integer p_c) {
-		if(p_n == null || p_c == null) {
+	public String list(Integer p_n,Integer p_s) {
+		if(p_n == null || p_s == null) {
 			ResponseData data = new ResponseData();
 			data.setCode("101");
 			return JsonUtil.object2Json(data);
 		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		List<Map> list = new ArrayList<Map>();
@@ -50,12 +52,18 @@ public class HouseController {
 		map.put("houses", list);
 		map.put("p_t", 2);
 		
-		return JsonUtil.object2Json(map);
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		
+		return JsonUtil.object2Json(result);
 	}
 	
 	@RequestMapping(value="ad",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String ad() {
+		Map<String,Object> result = new HashMap<String,Object>();
+		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
 		List<Map> list = new ArrayList<Map>();
@@ -79,7 +87,11 @@ public class HouseController {
 		list.add(adMap);
 		
 		map.put("ad", list);
-		return JsonUtil.object2Json(map);
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		return JsonUtil.object2Json(result);
 	}
 	
 	@RequestMapping(value="info",method=RequestMethod.GET,produces="application/json;charset=utf-8")
@@ -90,6 +102,8 @@ public class HouseController {
 			data.setCode("101");
 			return JsonUtil.object2Json(data);
 		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -109,7 +123,11 @@ public class HouseController {
 		map.put("equipment", "0000011111");
 		map.put("contact_phone", "400-883-1184");
 		
-		return JsonUtil.object2Json(map);
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		
+		return JsonUtil.object2Json(result);
 	}
 	
 	@RequestMapping(value="booking",method=RequestMethod.POST,produces="application/json;charset=utf-8")
@@ -131,6 +149,8 @@ public class HouseController {
 	@RequestMapping(value="booking/list",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String bookingList() {
+		Map<String,Object> result = new HashMap<String,Object>();
+		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
 		List<Map> list = new ArrayList<Map>();
@@ -143,7 +163,11 @@ public class HouseController {
 		
 		map.put("book", list);
 		
-		return JsonUtil.object2Json(map);
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		
+		return JsonUtil.object2Json(result);
 	}
 	
 	@RequestMapping(value="booking/order",method=RequestMethod.GET,produces="application/json;charset=utf-8")
@@ -155,10 +179,17 @@ public class HouseController {
 			return JsonUtil.object2Json(data);
 		}
 		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("order_id", "201512011430000001");
 		map.put("price", 2400);
-		return JsonUtil.object2Json(map);
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		
+		return JsonUtil.object2Json(result);
 	}
 	
 	@RequestMapping(value="booking/info",method=RequestMethod.GET,produces="application/json;charset=utf-8")
@@ -169,6 +200,8 @@ public class HouseController {
 			data.setCode("101");
 			return JsonUtil.object2Json(data);
 		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -182,7 +215,12 @@ public class HouseController {
 		map.put("phone", "13812348765");
 		map.put("sex", 1);
 		map.put("msg", "房子我要了，不差钱！");
-		return JsonUtil.object2Json(map);
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		
+		return JsonUtil.object2Json(result);
 	}
 	
 	@RequestMapping(value="booking/cancel",method=RequestMethod.POST,produces="application/json;charset=utf-8")
