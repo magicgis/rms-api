@@ -59,7 +59,7 @@ public class HouseController {
 		return JsonUtil.object2Json(result);
 	}
 	
-	@RequestMapping(value="ad",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	@RequestMapping(value="ad",method=RequestMethod.GET)
 	@ResponseBody
 	public String ad() {
 		Map<String,Object> result = new HashMap<String,Object>();
@@ -94,7 +94,7 @@ public class HouseController {
 		return JsonUtil.object2Json(result);
 	}
 	
-	@RequestMapping(value="info",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	@RequestMapping(value="info",method=RequestMethod.GET)
 	@ResponseBody
 	public String info(String house_id) {
 		if(StringUtils.isEmpty(house_id)) {
@@ -130,7 +130,7 @@ public class HouseController {
 		return JsonUtil.object2Json(result);
 	}
 	
-	@RequestMapping(value="booking",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+	@RequestMapping(value="booking",method=RequestMethod.POST)
 	@ResponseBody
 	public String booking(String house_id,String b_time,String b_name,String phone,
 			@RequestParam(required=false)Integer sex,@RequestParam(required=false)String msg) {
@@ -146,7 +146,7 @@ public class HouseController {
 		return JsonUtil.object2Json(data);
 	}
 	
-	@RequestMapping(value="booking/list",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	@RequestMapping(value="booking/list",method=RequestMethod.GET)
 	@ResponseBody
 	public String bookingList() {
 		Map<String,Object> result = new HashMap<String,Object>();
@@ -170,7 +170,7 @@ public class HouseController {
 		return JsonUtil.object2Json(result);
 	}
 	
-	@RequestMapping(value="booking/order",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	@RequestMapping(value="booking/order",method=RequestMethod.GET)
 	@ResponseBody
 	public String bookingOrder(String house_id) {
 		if(StringUtils.isEmpty(house_id)) {
@@ -192,7 +192,7 @@ public class HouseController {
 		return JsonUtil.object2Json(result);
 	}
 	
-	@RequestMapping(value="booking/info",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	@RequestMapping(value="booking/info",method=RequestMethod.GET)
 	@ResponseBody
 	public String bookingInfo(String house_id) {
 		if(StringUtils.isEmpty(house_id)) {
@@ -223,7 +223,7 @@ public class HouseController {
 		return JsonUtil.object2Json(result);
 	}
 	
-	@RequestMapping(value="booking/cancel",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+	@RequestMapping(value="booking/cancel",method=RequestMethod.POST)
 	@ResponseBody
 	public String bookingCancel(String house_id) {
 		ResponseData data = new ResponseData();
@@ -236,16 +236,100 @@ public class HouseController {
 		return JsonUtil.object2Json(data);
 	}
 	
-	@RequestMapping(value="booking/booked",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+	@RequestMapping(value="booked",method=RequestMethod.POST)
 	@ResponseBody
-	public String bookingBooked(String house_id) {
+	public String bookingBooked(String house_id,String sign_date,String end_date) {
 		ResponseData data = new ResponseData();
-		if(StringUtils.isEmpty(house_id)) {
+		if(StringUtils.isEmpty(house_id) || StringUtils.isEmpty(sign_date) || StringUtils.isEmpty(end_date)) {
 			data.setCode("101");
 			return JsonUtil.object2Json(data);
 		}
 		
 		data.setCode("200");
 		return JsonUtil.object2Json(data);
+	}
+	
+	@RequestMapping(value="booked/list",method=RequestMethod.GET)
+	@ResponseBody
+	public String bookingBooked(String house_id) {
+		if(StringUtils.isEmpty(house_id)) {
+			ResponseData data = new ResponseData();
+			data.setCode("101");
+			return JsonUtil.object2Json(data);
+		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		List<Map> list = new ArrayList<Map>();
+		Map mp = new HashMap();
+		mp.put("house_id", "1");
+		mp.put("desc", "唐丰苑 地铁二号线");
+		mp.put("status", "0");
+		mp.put("cover", "http://218.80.0.218:12301/201409121457331406.JPG");
+		list.add(mp);
+		
+		mp = new HashMap();
+		mp.put("house_id", "2");
+		mp.put("desc", "唐丰苑 地铁二号线");
+		mp.put("status", "1");
+		mp.put("cover", "http://218.80.0.218:12301/201409121457331406.JPG");
+		list.add(mp);
+		
+		map.put("houses", list);
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		
+		return JsonUtil.object2Json(result);
+	}
+	
+	@RequestMapping(value="booked/protocol",method=RequestMethod.GET)
+	@ResponseBody
+	public String bookingProtocol(String house_id) {
+		if(StringUtils.isEmpty(house_id)) {
+			ResponseData data = new ResponseData();
+			data.setCode("101");
+			return JsonUtil.object2Json(data);
+		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("book_name", "欧阳慕容");
+		map.put("book_phone", "13896327852");
+		map.put("book_certid", "310123190001011234");
+		map.put("house_addr", "浦东唐丰苑");
+		map.put("start_date", "2016-01-01");
+		map.put("end_date", "2016-09-30");
+		map.put("deposit_amount", 500);
+		map.put("rent_amount", 2400);
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		
+		return JsonUtil.object2Json(result);
+	}
+	
+	@RequestMapping(value="booked/order",method=RequestMethod.POST)
+	@ResponseBody
+	public String bookedOrder(String house_id) {
+		if(StringUtils.isEmpty(house_id)) {
+			ResponseData data = new ResponseData();
+			data.setCode("101");
+			return JsonUtil.object2Json(data);
+		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		result.put("data", map);
+		return JsonUtil.object2Json(result);
 	}
 }

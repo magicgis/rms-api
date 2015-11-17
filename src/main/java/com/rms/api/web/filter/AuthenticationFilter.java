@@ -36,72 +36,8 @@ public class AuthenticationFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		/*校验token*/
-		log.info("start authentic......");
-		HttpServletRequest httpRequest = (HttpServletRequest)request;
-		HttpServletResponse httpResonse = (HttpServletResponse)response;
-		httpResonse.setCharacterEncoding("utf-8");
-		String token = httpRequest.getHeader("token");
-		String url = httpRequest.getRequestURI();
-		
-		boolean isValidToken = true;
-
-		Resource resource = new ClassPathResource("/application.properties");
-		Properties props = PropertiesLoaderUtils.loadProperties(resource);
-		//取不需要验证TOKEN的功能
-		String escapeTokenFunctions =  props.getProperty("token.escape");
-		log.debug(escapeTokenFunctions);
-		//判读是否需要验证TOKEN
-		boolean escapeToken = escapeTokenFunctions.contains(httpRequest.getServletPath());
-		
-		if(!escapeToken){
-			log.debug("checking token");
-			//验证TOKEN，通过返回手机号，否则为null
-			if(token== null){
-				PrintWriter writer = httpResonse.getWriter();
-				ResponseData data = new ResponseData(); 
-				data.setCode("400");
-				data.setMsg("no token");
-				writer.write(JsonUtil.object2Json(data));
-				try {
-					writer.flush();
-					writer.close();
-				} catch (Exception e) {
-					log.error("",e);
-				}
-				isValidToken = false;
-			}else{
-				String rms_url = props.getProperty("rms.url");
-				String phone = HttpClientUtil.doPost(rms_url, "system/checkToken", httpRequest);
-				log.debug("fetched phone by token:" + phone);
-				if(phone == null || phone.length()==0){
-					isValidToken = false;
-				}else{
-					isValidToken = true;
-					request.setAttribute("mobile", phone);	
-				}
-			}
-		}
-		
-		if(isValidToken){
-			chain.doFilter(request, response);
-		}else{
-			PrintWriter writer = httpResonse.getWriter();
-			ResponseData data = new ResponseData(); 
-			data.setCode("401");
-			data.setMsg("请重新登陆");
-			writer.write(JsonUtil.object2Json(data));
-			try {
-				writer.flush();
-				writer.close();
-			} catch (Exception e) {
-				log.error("",e);
-			}
-		}
-		
-		
-		
-		log.info("end authentic......");
+		response.setContentType("application/x-www-form-urlencoded; charset=utf-8");
+		chain.doFilter(request, response);
 	}
 
 	@Override
