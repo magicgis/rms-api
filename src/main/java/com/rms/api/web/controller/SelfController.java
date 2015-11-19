@@ -80,4 +80,27 @@ public class SelfController extends BaseController {
 		result.put("data", infoMap);
 		return JsonUtil.object2Json(result);
 	}
+	@RequestMapping(value="info/change",method=RequestMethod.POST)
+	@ResponseBody
+	public String infoChange(String name, String id, 
+				String sex, String birth, 
+				String age, String profession,
+				String corp) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+
+		Map<String,String> infoMap = new HashMap<String,String>();
+		infoMap.put("name", name);
+		infoMap.put("id", id);
+		infoMap.put("sex", sex);
+		infoMap.put("birth", birth);
+		infoMap.put("age", age);
+		infoMap.put("profession", profession);
+		infoMap.put("corp", corp);
+		
+		result.put("code", "200");
+		result.put("msg", "修改成功");
+		result.put("data", infoMap);
+		return JsonUtil.object2Json(result);
+	}
 }
