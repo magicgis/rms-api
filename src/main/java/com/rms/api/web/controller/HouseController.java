@@ -13,25 +13,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rms.api.web.entity.ResponseData;
-import com.rms.api.web.util.JsonUtil;
 
 @Controller
 @RequestMapping("house")
 public class HouseController {
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
-	public String list(Integer p_n,Integer p_s) {
+	public ResponseData list(Integer p_n,Integer p_s) {
+		ResponseData data = new ResponseData();
 		if(p_n == null || p_s == null) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
-		Map<String,Object> result = new HashMap<String,Object>();
-		
 		Map<String,Object> map = new HashMap<String,Object>();
-		List<Map> list = new ArrayList<Map>();
-		Map mp = new HashMap();
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String,Object> mp = new HashMap<String,Object>();
 		mp.put("id", "1");
 		mp.put("price", new Double(2400));
 		mp.put("short_desc", "独卫、阳台");
@@ -40,7 +37,7 @@ public class HouseController {
 		mp.put("cover", "http://218.80.0.218:12301/201409121457331406.JPG");
 		list.add(mp);
 		
-		mp = new HashMap();
+		mp = new HashMap<String,Object>();
 		mp.put("id", "2");
 		mp.put("price", new Double(1800));
 		mp.put("short_desc", "独卫、阳台");
@@ -52,21 +49,21 @@ public class HouseController {
 		map.put("houses", list);
 		map.put("p_t", 2);
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
 		
-		return JsonUtil.object2Json(result);
+		return data;
 	}
 	
 	@RequestMapping(value="ad",method=RequestMethod.GET)
 	@ResponseBody
-	public String ad() {
-		Map<String,Object> result = new HashMap<String,Object>();
+	public ResponseData ad() {
+		ResponseData data = new ResponseData();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
-		List<Map> list = new ArrayList<Map>();
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
 		Map<String,String> adMap = new HashMap<String,String>();
 		adMap.put("id", "1");
 		adMap.put("type", "0");
@@ -88,22 +85,20 @@ public class HouseController {
 		
 		map.put("ad", list);
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
 	}
 	
 	@RequestMapping(value="info",method=RequestMethod.GET)
 	@ResponseBody
-	public String info(String house_id) {
+	public ResponseData info(String house_id) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
-		
-		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -123,38 +118,38 @@ public class HouseController {
 		map.put("equipment", "0000011111");
 		map.put("contact_phone", "400-883-1184");
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
 	}
 	
 	@RequestMapping(value="booking",method=RequestMethod.POST)
 	@ResponseBody
-	public String booking(String house_id,String b_time,String b_name,String phone,
+	public ResponseData booking(String house_id,String b_time,String b_name,String phone,
 			@RequestParam(required=false)Integer sex,@RequestParam(required=false)String msg) {
 		ResponseData data = new ResponseData();
 		
 		if(StringUtils.isEmpty(house_id) || StringUtils.isEmpty(b_time) || StringUtils.isEmpty(b_name)
 				|| StringUtils.isEmpty(phone)) {
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
 		data.setCode("200");
-		return JsonUtil.object2Json(data);
+		data.setMsg("");
+		return data;
 	}
 	
 	@RequestMapping(value="booking/list",method=RequestMethod.GET)
 	@ResponseBody
-	public String bookingList() {
-		Map<String,Object> result = new HashMap<String,Object>();
+	public ResponseData bookingList() {
+		ResponseData data = new ResponseData();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
-		List<Map> list = new ArrayList<Map>();
-		Map mp = new HashMap();
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String,Object> mp = new HashMap<String,Object>();
 		mp.put("id", "1");
 		mp.put("time", "2015-12-01 14:30");
 		mp.put("progress", 1);
@@ -163,45 +158,39 @@ public class HouseController {
 		
 		map.put("book", list);
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
 	}
 	
 	@RequestMapping(value="booking/order",method=RequestMethod.GET)
 	@ResponseBody
-	public String bookingOrder(String house_id) {
+	public ResponseData bookingOrder(String house_id) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
-		
-		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("order_id", "201512011430000001");
 		map.put("price", 2400);
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
 	}
 	
 	@RequestMapping(value="booking/info",method=RequestMethod.GET)
 	@ResponseBody
-	public String bookingInfo(String house_id) {
+	public ResponseData bookingInfo(String house_id) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
-		
-		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -216,61 +205,60 @@ public class HouseController {
 		map.put("sex", 1);
 		map.put("msg", "房子我要了，不差钱！");
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
 	}
 	
 	@RequestMapping(value="booking/cancel",method=RequestMethod.POST)
 	@ResponseBody
-	public String bookingCancel(String house_id) {
+	public ResponseData bookingCancel(String house_id) {
 		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
 		data.setCode("200");
-		return JsonUtil.object2Json(data);
+		data.setMsg("");
+		return data;
 	}
 	
 	@RequestMapping(value="booked",method=RequestMethod.POST)
 	@ResponseBody
-	public String bookingBooked(String house_id,String sign_date,String end_date) {
+	public ResponseData bookingBooked(String house_id,String sign_date,String end_date) {
 		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id) || StringUtils.isEmpty(sign_date) || StringUtils.isEmpty(end_date)) {
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
 		data.setCode("200");
-		return JsonUtil.object2Json(data);
+		data.setMsg("");
+		return data;
 	}
 	
 	@RequestMapping(value="booked/list",method=RequestMethod.GET)
 	@ResponseBody
-	public String bookingBooked(String house_id) {
+	public ResponseData bookingBooked(String house_id) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
-		
-		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
-		List<Map> list = new ArrayList<Map>();
-		Map mp = new HashMap();
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		Map<String,String> mp = new HashMap<String,String>();
 		mp.put("house_id", "1");
 		mp.put("desc", "唐丰苑 地铁二号线");
 		mp.put("status", "0");
 		mp.put("cover", "http://218.80.0.218:12301/201409121457331406.JPG");
 		list.add(mp);
 		
-		mp = new HashMap();
+		mp = new HashMap<String,String>();
 		mp.put("house_id", "2");
 		mp.put("desc", "唐丰苑 地铁二号线");
 		mp.put("status", "1");
@@ -279,23 +267,20 @@ public class HouseController {
 		
 		map.put("houses", list);
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
 	}
 	
 	@RequestMapping(value="booked/protocol",method=RequestMethod.GET)
 	@ResponseBody
-	public String bookingProtocol(String house_id) {
+	public ResponseData bookingProtocol(String house_id) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
-		
-		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("book_name", "欧阳慕容");
@@ -307,39 +292,34 @@ public class HouseController {
 		map.put("deposit_amount", 500);
 		map.put("rent_amount", 2400);
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
 	}
 	
 	@RequestMapping(value="booked/order",method=RequestMethod.POST)
 	@ResponseBody
-	public String bookedOrder(String house_id) {
+	public ResponseData bookedOrder(String house_id) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
-		Map<String,Object> result = new HashMap<String,Object>();
-		
-		result.put("code", "200");
-		result.put("msg", "");
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		return data;
 	}
 	
 	@RequestMapping(value="booked/info",method=RequestMethod.GET)
 	@ResponseBody
-	public String bookedInfo(String house_id) {
+	public ResponseData bookedInfo(String house_id) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
-		
-		Map<String,Object> result = new HashMap<String,Object>();
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
@@ -356,78 +336,67 @@ public class HouseController {
 		map.put("rent_phone", "13811114444");
 		map.put("note", "房子我定了");
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", map);
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
 	}
 	
 	@RequestMapping(value="sign",method=RequestMethod.POST)
 	@ResponseBody
-	public String sign(String house_id,String end_date,String msg) {
+	public ResponseData sign(String house_id,String end_date,String msg) {
+		ResponseData data = new ResponseData(); 
 		if(StringUtils.isEmpty(house_id) || StringUtils.isEmpty(end_date)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
-		Map<String,Object> result = new HashMap<String,Object>();
-		
-		result.put("code", "200");
-		result.put("msg", "");
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		return data;
 	}
 	
 	@RequestMapping(value="sign/order",method=RequestMethod.POST)
 	@ResponseBody
-	public String signOrder(String house_id) {
+	public ResponseData signOrder(String house_id) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(house_id)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
-		Map<String,Object> result = new HashMap<String,Object>();
-		
-		result.put("code", "200");
-		result.put("msg", "");
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		return data;
 	}
 	
 	@RequestMapping(value="contract/continue",method=RequestMethod.POST)
 	@ResponseBody
-	public String contractContinue(String contract_id,String end_date,String msg) {
+	public ResponseData contractContinue(String contract_id,String end_date,String msg) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(contract_id) || StringUtils.isEmpty(end_date)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
-		Map<String,Object> result = new HashMap<String,Object>();
-		
-		result.put("code", "200");
-		result.put("msg", "");
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		return data;
 	}
 	
 	@RequestMapping(value="return",method=RequestMethod.POST)
 	@ResponseBody
-	public String returnBack(String contract_id,String rent_date,String msg) {
+	public ResponseData returnBack(String contract_id,String rent_date,String msg) {
+		ResponseData data = new ResponseData();
 		if(StringUtils.isEmpty(contract_id) || StringUtils.isEmpty(rent_date)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		
 		Map<String,Object> result = new HashMap<String,Object>();
 		
-		result.put("code", "200");
-		result.put("msg", "");
-		
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		return data;
 	}
 }
