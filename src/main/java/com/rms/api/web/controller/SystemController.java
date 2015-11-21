@@ -1,13 +1,14 @@
 package com.rms.api.web.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,27 +22,26 @@ public class SystemController extends BaseController{
 
 	@RequestMapping(value="register")
 	@ResponseBody
-	public String register(HttpServletRequest request) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/register", request);		
+	public void register(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "system/register", request, response);		
 	}
 	
 	@RequestMapping(value="check_code")
 	@ResponseBody
-	public String check_code(HttpServletRequest request) {
-		String res = HttpClientUtil.doPost(getRmsUrl(), "system/check_code", request);
-		return res;
+	public void check_code(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "system/check_code", request, response);
 	}
 	
 	@RequestMapping(value="login/pwd")
 	@ResponseBody
-	public String loginWithPwd(HttpServletRequest request) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/login/pwd", request);
+	public void loginWithPwd(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "system/login/pwd", request, response);
 	}
 	
 	@RequestMapping(value="login/code")
 	@ResponseBody
-	public String loginWithCode(HttpServletRequest request) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/login/code", request);
+	public void loginWithCode(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "system/login/code", request,response);
 		
 	}
 

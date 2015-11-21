@@ -77,7 +77,7 @@ public class AuthenticationFilter implements Filter{
 				authorized = false;
 			}else{
 				String rms_url = props.getProperty("rms.url");
-				String phone = HttpClientUtil.doPost(rms_url, "system/checkToken", httpRequest);
+				String phone = HttpClientUtil.getData(rms_url, "system/checkToken", httpRequest);
 				log.debug("fetched phone by token:" + phone);
 				if(phone == null || phone.length()==0){
 					authorized = false;

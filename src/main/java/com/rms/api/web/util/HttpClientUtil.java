@@ -1,11 +1,12 @@
 package com.rms.api.web.util;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -41,8 +42,9 @@ public class HttpClientUtil {
 //		return json;
 //	}
 	
-	public static String doPost(String rmsUrl, String url,HttpServletRequest request) {
+	public static void doPost(String rmsUrl, String url,HttpServletRequest request,HttpServletResponse response) {
 		String json = "";
+		PrintWriter writer = null;
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpPost post = new HttpPost(rmsUrl+url);
@@ -71,6 +73,51 @@ public class HttpClientUtil {
 			json = EntityUtils.toString(result.getEntity(),"UTF-8");
 			log.debug("returned data:" + json);
 			
+			response.setContentType("application/json;charset=UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			writer = response.getWriter();
+			writer.write(json);
+		} catch (Exception e) {
+			log.error("call dopost error:",e);
+		} finally {
+			try {
+				writer.flush();
+				writer.close();
+			} catch (Exception e) {
+				log.error("close writer error:",e);
+			}
+		}
+	}
+	
+	public static String getData(String rmsUrl, String url,HttpServletRequest request) {
+		String json = "";
+		try {
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			HttpPost post = new HttpPost(rmsUrl+url);
+			log.debug(rmsUrl+url);
+			log.debug("params:" + request.getParameterMap());
+			List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+		    Enumeration paramNames = request.getParameterNames();
+		    while (paramNames.hasMoreElements()) {
+		      String paramName = (String) paramNames.nextElement();
+		      String[] paramValues = request.getParameterValues(paramName);
+		      if (paramValues.length == 1) {
+		        String paramValue = paramValues[0];
+		        if (paramValue.length() != 0) {
+		        	formparams.add(new BasicNameValuePair(paramName,paramValue));
+		        }
+		      }
+		    };
+		    if(request.getAttribute("mobile")!=null){
+		    	formparams.add(new BasicNameValuePair("mobile", (String) request.getAttribute("mobile")));
+		    }
+			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");;
+			post.setEntity(entity);
+			post.setHeader("token", request.getHeader("token"));
+			HttpResponse result = httpClient.execute(post);
+			//log.debug("returned data:" + EntityUtils.toString(result.getEntity(), "GBK"));
+			json = EntityUtils.toString(result.getEntity(),"UTF-8");
+			log.debug("returned data:" + json);
 		} catch (Exception e) {
 			log.error("call dopost error:",e);
 		}

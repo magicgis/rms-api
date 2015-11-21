@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.rms.api.web.base.BaseController;
 import com.rms.api.web.entity.ResponseData;
 import com.rms.api.web.util.HttpClientUtil;
-import com.rms.api.web.util.JsonUtil;
 
 @Controller
 @RequestMapping("self")
@@ -35,17 +35,15 @@ public class SelfController extends BaseController {
 
 	@RequestMapping(value = "pwd")
 	@ResponseBody
-	public String changePwd(HttpServletRequest request) {
-		return HttpClientUtil.doPost(getRmsUrl(), "system/self/pwd", request);
+	public void changePwd(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "system/self/pwd", request, response);
 	}
 
 	@RequestMapping(value = "message", method = RequestMethod.GET)
 	@ResponseBody
-	public String message() {
-		Map<String, Object> result = new HashMap<String, Object>();
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
+	public ResponseData message() {
+		ResponseData data = new ResponseData();
+		
 		List<Map> list = new ArrayList<Map>();
 		Map<String, String> msgMap = new HashMap<String, String>();
 		msgMap.put("id", "1");
@@ -63,17 +61,18 @@ public class SelfController extends BaseController {
 		msgMap3.put("msg", "尊敬的唐先生，您的水费余额已不足，请及时缴纳以避免断水情况的发生。");
 		list.add(msgMap3);
 
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", list);
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(list);
+		
+		return data;
 	}
 
 	@RequestMapping(value = "info", method = RequestMethod.GET)
 	@ResponseBody
-	public String info() {
-		Map<String, Object> result = new HashMap<String, Object>();
-
+	public ResponseData info() {
+		ResponseData data = new ResponseData();
+		
 		Map<String, String> infoMap = new HashMap<String, String>();
 		infoMap.put("name", "唐先生");
 		infoMap.put("id", "430525198701011234");
@@ -83,18 +82,19 @@ public class SelfController extends BaseController {
 		infoMap.put("profession", "程序员");
 		infoMap.put("corp", "IBM");
 
-		result.put("code", "200");
-		result.put("msg", "");
-		result.put("data", infoMap);
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(infoMap);
+		
+		return data;
 	}
 
 	@RequestMapping(value = "info/change", method = RequestMethod.POST)
 	@ResponseBody
-	public String infoChange(String name, String id, String sex, String birth, String age, String profession,
+	public ResponseData infoChange(String name, String id, String sex, String birth, String age, String profession,
 			String corp) {
-		Map<String, Object> result = new HashMap<String, Object>();
-
+		ResponseData data = new ResponseData();
+		
 		Map<String, String> infoMap = new HashMap<String, String>();
 		infoMap.put("name", name);
 		infoMap.put("id", id);
@@ -104,22 +104,21 @@ public class SelfController extends BaseController {
 		infoMap.put("profession", profession);
 		infoMap.put("corp", corp);
 
-		result.put("code", "200");
-		result.put("msg", "修改成功");
-		result.put("data", infoMap);
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("修改成功");
+		data.setData(infoMap);
+		
+		return data;
 	}
 
 	@RequestMapping(value = "ic", method = RequestMethod.POST)
 	@ResponseBody
-	public String uploadIc(@RequestParam(value = "ic") MultipartFile filedata, HttpServletRequest request) {
-
-		Map<String, Object> result = new HashMap<String, Object>();
+	public ResponseData uploadIc(@RequestParam(value = "ic") MultipartFile filedata, HttpServletRequest request) {
+		ResponseData data = new ResponseData();
 
 		if (StringUtils.isEmpty(filedata)) {
-			ResponseData data = new ResponseData();
 			data.setCode("101");
-			return JsonUtil.object2Json(data);
+			return data;
 		}
 		// 保存相对路径到数据库 图片写入服务器
 		// 获取图片的文件名
@@ -136,15 +135,16 @@ public class SelfController extends BaseController {
 
 		} catch (Exception e) {
 			log.error("上传图片失败.", e);
-			result.put("code", "102");
-			result.put("msg", "上传图片失败");
-			return JsonUtil.object2Json(result);
+			data.setCode("102");
+			data.setMsg("上传图片失败");
+			return data;
 		}
 
-		result.put("code", "200");
-		result.put("msg", "上传成功");
-		result.put("data", request.getContextPath()+pic_url  + newFileName);
-		return JsonUtil.object2Json(result);
+		data.setCode("200");
+		data.setMsg("上传成功");
+		data.setData(request.getContextPath()+pic_url  + newFileName);
+		
+		return data;
 	}
 
 	private void saveFile(String path, String newFileName, MultipartFile filedata) {
