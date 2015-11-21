@@ -325,11 +325,109 @@ public class HouseController {
 		
 		Map<String,Object> result = new HashMap<String,Object>();
 		
+		result.put("code", "200");
+		result.put("msg", "");
+		return JsonUtil.object2Json(result);
+	}
+	
+	@RequestMapping(value="booked/info",method=RequestMethod.GET)
+	@ResponseBody
+	public String bookedInfo(String house_id) {
+		if(StringUtils.isEmpty(house_id)) {
+			ResponseData data = new ResponseData();
+			data.setCode("101");
+			return JsonUtil.object2Json(data);
+		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
 		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("house_id", "1");
+		map.put("desc", "唐丰苑 地铁站5分钟");
+		map.put("cover", "http://218.80.0.218:12301/201409121457331406.JPG");
+		map.put("rent_amount", 2400);
+		map.put("start_date", "2015-10-01");
+		map.put("end_date", "2016-09-30");
+		map.put("deposit_amount", 500);
+		map.put("rent_name", "欧阳慕容");
+		map.put("id_no", "310123190001011234");
+		map.put("rent_gender", "1");
+		map.put("rent_phone", "13811114444");
+		map.put("note", "房子我定了");
 		
 		result.put("code", "200");
 		result.put("msg", "");
 		result.put("data", map);
+		
+		return JsonUtil.object2Json(result);
+	}
+	
+	@RequestMapping(value="sign",method=RequestMethod.POST)
+	@ResponseBody
+	public String sign(String house_id,String end_date,String msg) {
+		if(StringUtils.isEmpty(house_id) || StringUtils.isEmpty(end_date)) {
+			ResponseData data = new ResponseData();
+			data.setCode("101");
+			return JsonUtil.object2Json(data);
+		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		
+		return JsonUtil.object2Json(result);
+	}
+	
+	@RequestMapping(value="sign/order",method=RequestMethod.POST)
+	@ResponseBody
+	public String signOrder(String house_id) {
+		if(StringUtils.isEmpty(house_id)) {
+			ResponseData data = new ResponseData();
+			data.setCode("101");
+			return JsonUtil.object2Json(data);
+		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		
+		return JsonUtil.object2Json(result);
+	}
+	
+	@RequestMapping(value="contract/continue",method=RequestMethod.POST)
+	@ResponseBody
+	public String contractContinue(String contract_id,String end_date,String msg) {
+		if(StringUtils.isEmpty(contract_id) || StringUtils.isEmpty(end_date)) {
+			ResponseData data = new ResponseData();
+			data.setCode("101");
+			return JsonUtil.object2Json(data);
+		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		
+		return JsonUtil.object2Json(result);
+	}
+	
+	@RequestMapping(value="return",method=RequestMethod.POST)
+	@ResponseBody
+	public String returnBack(String contract_id,String rent_date,String msg) {
+		if(StringUtils.isEmpty(contract_id) || StringUtils.isEmpty(rent_date)) {
+			ResponseData data = new ResponseData();
+			data.setCode("101");
+			return JsonUtil.object2Json(data);
+		}
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		result.put("code", "200");
+		result.put("msg", "");
+		
 		return JsonUtil.object2Json(result);
 	}
 }
