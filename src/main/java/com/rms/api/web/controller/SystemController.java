@@ -44,5 +44,12 @@ public class SystemController extends BaseController{
 		HttpClientUtil.doPost(getRmsUrl(), "system/login/code", request,response);
 		
 	}
+	
+	@RequestMapping(value="pwd/reset")
+	@ResponseBody
+	public void pwdReset(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "system/pwd/reset", request,response);
+		
+	}
 
 }
