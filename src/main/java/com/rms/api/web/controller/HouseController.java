@@ -394,10 +394,155 @@ public class HouseController {
 			return data;
 		}
 		
-		Map<String,Object> result = new HashMap<String,Object>();
+		data.setCode("200");
+		data.setMsg("");
+		return data;
+	}
+	
+	@RequestMapping(value="bill",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseData bill(Integer p_n,Integer p_s) {
+		ResponseData data = new ResponseData();
+		if(p_n == null || p_s == null) {
+			data.setCode("101");
+			return data;
+		}
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String,Object> mp = new HashMap<String,Object>();
+		mp.put("bill_id", "1");
+		mp.put("bill_month", "2015-09");
+		mp.put("bill_amount", 2950);
+		mp.put("bill_start", "2015-09-01");
+		mp.put("bill_end", "2015-09-30");
+		mp.put("rent_amount", 2400);
+		mp.put("water_amount", 50);
+		mp.put("electric_amount", 500);
+		mp.put("electric_balance", 110);
+		mp.put("bill_state", "1");
+		list.add(mp);
+		
+		mp = new HashMap<String,Object>();
+		mp.put("bill_id", "2");
+		mp.put("bill_month", "2015-10");
+		mp.put("bill_amount", 2950);
+		mp.put("bill_start", "2015-10-01");
+		mp.put("bill_end", "2015-10-31");
+		mp.put("rent_amount", 2400);
+		mp.put("water_amount", 50);
+		mp.put("electric_amount", 500);
+		mp.put("electric_balance", 110);
+		mp.put("bill_state", "0");
+		list.add(mp);
+		
+		map.put("bill", list);
+		map.put("p_t", 2);
 		
 		data.setCode("200");
 		data.setMsg("");
+		data.setData(map);
+		
+		return data;
+	}
+	
+	@RequestMapping(value="keeper/info",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseData keeperInfo() {
+		ResponseData data = new ResponseData();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("id", "1");
+		map.put("name", "欧阳夏利");
+		map.put("phone", "13800001111");
+		map.put("photo", "http://218.80.0.218:12301/photo.jpg");
+		map.put("level", "");
+		map.put("agency", "上海房天下有限公司");
+		
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
+	}
+	
+	@RequestMapping(value="complain",method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseData complain(String id,String desc) {
+		ResponseData data = new ResponseData();
+		
+		if(id == null || desc == null) {
+			data.setCode("101");
+			return data;
+		}
+		
+		data.setCode("200");
+		data.setMsg("");
+		return data;
+	}
+	
+	@RequestMapping(value="contract/list",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseData contractList() {
+		ResponseData data = new ResponseData();
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String,Object> mp = new HashMap<String,Object>();
+		mp.put("contract_id", "1");
+		mp.put("contract_code", "TFY-20151001001");
+		mp.put("cover", "http://218.80.0.218:12301/201409121457331406.JPG");
+		mp.put("short_desc", "唐镇唐丰苑");
+		mp.put("house_desc", "13号楼301-A");
+		mp.put("rent", 2400);
+		list.add(mp);
+		
+		mp = new HashMap<String,Object>();
+		mp.put("contract_id", "2");
+		mp.put("contract_code", "TFY-20151001002");
+		mp.put("cover", "http://218.80.0.218:12301/201409121457331406.JPG");
+		mp.put("short_desc", "唐镇唐丰苑");
+		mp.put("house_desc", "13号楼301-E");
+		mp.put("rent", 3200);
+		list.add(mp);
+		
+		map.put("contracts", list);
+		
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
+		return data;
+	}
+	
+	@RequestMapping(value="contract/info",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseData contractInfo(String contract_id) {
+		ResponseData data = new ResponseData();
+		
+		if(contract_id == null) {
+			data.setCode("101");
+			return data;
+		}
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("contract_id", "1");
+		map.put("contract_code", "TFY-20151001002");
+		map.put("short_desc", "唐镇唐丰苑");
+		map.put("cover", "http://218.80.0.218:12301/photo.jpg");
+		map.put("house_desc", "13号楼301-E");
+		map.put("rent", 2400);
+		map.put("rent_type", "0");
+		map.put("deposit_amount", 2400);
+		map.put("we_deposit_amount", 500);
+		map.put("sign_date", "2015-09-01");
+		map.put("start_date", "2015-09-01");
+		map.put("end_date", "2016-08-30");
+		map.put("remind_date", "2016-07-31");
+		
+		data.setCode("200");
+		data.setMsg("");
+		data.setData(map);
 		return data;
 	}
 }
