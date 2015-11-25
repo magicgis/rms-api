@@ -153,6 +153,7 @@ public class HouseController {
 		mp.put("id", "1");
 		mp.put("time", "2015-12-01 14:30");
 		mp.put("progress", 1);
+		mp.put("short_desc", "浦东唐镇唐丰苑、独卫带阳台");
 		mp.put("cover", "http://218.80.0.218:12301/201409121457331406.JPG");
 		list.add(mp);
 		
