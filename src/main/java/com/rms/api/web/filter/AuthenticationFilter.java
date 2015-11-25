@@ -44,6 +44,7 @@ public class AuthenticationFilter implements Filter{
 		log.info("start authentic......");
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResonse = (HttpServletResponse)response;
+		log.info("request path: " + httpRequest.getServletPath());
 		//httpResonse.setCharacterEncoding("utf-8");
 		String token = httpRequest.getHeader("token");
 		String url = httpRequest.getRequestURI();

@@ -81,6 +81,9 @@ public class SelfController extends BaseController {
 		infoMap.put("age", "28");
 		infoMap.put("profession", "程序员");
 		infoMap.put("corp", "IBM");
+		infoMap.put("avatar", "http://218.80.0.218:12301/avatar.jpg");
+		infoMap.put("id_photo_front", "http://218.80.0.218:12301/id_photo_front.jpg");
+		infoMap.put("id_photo_back", "http://218.80.0.218:12301/id_photo_back.jpg");
 
 		data.setCode("200");
 		data.setMsg("");
@@ -113,10 +116,46 @@ public class SelfController extends BaseController {
 
 	@RequestMapping(value = "ic", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData uploadIc(@RequestParam(value = "ic") MultipartFile filedata, HttpServletRequest request) {
+	public ResponseData uploadIc(@RequestParam(value = "front") MultipartFile filedata,@RequestParam(value = "back") MultipartFile filedataBack, HttpServletRequest request) {
 		ResponseData data = new ResponseData();
 
-		if (StringUtils.isEmpty(filedata)) {
+		if (StringUtils.isEmpty(filedata) ||StringUtils.isEmpty(filedataBack)) {
+			data.setCode("101");
+			return data;
+		}
+		// 保存相对路径到数据库 图片写入服务器
+		// 获取图片的文件名
+		String fileName = filedata.getOriginalFilename();
+		// 获取图片的扩展名
+		String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
+		// 新的图片文件名 = 获取时间戳+"."图片扩展名
+		String newFileName = String.valueOf(System.currentTimeMillis()) + "." + extensionName;
+		String realPathDir =request.getSession().getServletContext().getRealPath(pic_url);
+		try {
+			// TODO : 保存图片URL到用户表
+
+			saveFile(realPathDir, newFileName, filedata);
+
+		} catch (Exception e) {
+			log.error("上传图片失败.", e);
+			data.setCode("102");
+			data.setMsg("上传图片失败");
+			return data;
+		}
+
+		data.setCode("200");
+		data.setMsg("上传成功");
+		data.setData(request.getContextPath()+pic_url  + newFileName);
+		
+		return data;
+	}
+	
+	@RequestMapping(value = "avatar", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseData uploadAvatar(@RequestParam(value = "avatar") MultipartFile filedata, HttpServletRequest request) {
+		ResponseData data = new ResponseData();
+
+		if (StringUtils.isEmpty(filedata) ) {
 			data.setCode("101");
 			return data;
 		}
@@ -148,6 +187,10 @@ public class SelfController extends BaseController {
 	}
 
 	private void saveFile(String path, String newFileName, MultipartFile filedata) {
+		log.debug("path:" + path);
+		log.debug("newFileName:" + newFileName);
+		log.debug("filedata:" + filedata);
+		
 		// 根据配置文件获取服务器图片存放路径
 
 		// 构建文件目录
@@ -159,7 +202,7 @@ public class SelfController extends BaseController {
 		try {
 			FileOutputStream out = new FileOutputStream(pic_url  + newFileName);
 			// 写入文件
-			out.write(filedata.getBytes());
+			out.write(filedata.getBytes());			
 			out.flush();
 			out.close();
 
