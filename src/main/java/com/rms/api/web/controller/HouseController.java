@@ -242,12 +242,8 @@ public class HouseController {
 	
 	@RequestMapping(value="booked/list",method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseData bookingBooked(String house_id) {
+	public ResponseData bookingBooked() {
 		ResponseData data = new ResponseData();
-		if(StringUtils.isEmpty(house_id)) {
-			data.setCode("101");
-			return data;
-		}
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
