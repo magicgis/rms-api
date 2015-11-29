@@ -76,7 +76,7 @@ public class SelfController extends BaseController {
 		Map<String, String> infoMap = new HashMap<String, String>();
 		infoMap.put("name", "唐先生");
 		infoMap.put("id", "430525198701011234");
-		infoMap.put("sex", "男");
+		infoMap.put("sex", "1");
 		infoMap.put("birth", "1987-01-01");
 		infoMap.put("age", "28");
 		infoMap.put("profession", "程序员");
