@@ -43,6 +43,7 @@ public class SelfController extends BaseController {
 	@ResponseBody
 	public ResponseData message() {
 		ResponseData data = new ResponseData();
+		Map<String,Object> map = new HashMap<String,Object>();
 		
 		List<Map> list = new ArrayList<Map>();
 		Map<String, String> msgMap = new HashMap<String, String>();
@@ -60,10 +61,11 @@ public class SelfController extends BaseController {
 		msgMap3.put("time", "2015-10-05 11:00");
 		msgMap3.put("msg", "尊敬的唐先生，您的水费余额已不足，请及时缴纳以避免断水情况的发生。");
 		list.add(msgMap3);
-
+		
+		map.put("msgs", list);
 		data.setCode("200");
 		data.setMsg("");
-		data.setData(list);
+		data.setData(map);
 		
 		return data;
 	}
