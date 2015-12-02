@@ -41,79 +41,20 @@ public class SelfController extends BaseController {
 
 	@RequestMapping(value = "message", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseData message() {
-		ResponseData data = new ResponseData();
-		Map<String,Object> map = new HashMap<String,Object>();
-		
-		List<Map> list = new ArrayList<Map>();
-		Map<String, String> msgMap = new HashMap<String, String>();
-		msgMap.put("id", "1");
-		msgMap.put("time", "2015-10-01 10:30");
-		msgMap.put("msg", "尊敬的唐先生，您的报修已通过维修师傅确认，师傅将准时上门为您维修。");
-		list.add(msgMap);
-		Map<String, String> msgMap2 = new HashMap<String, String>();
-		msgMap2.put("id", "2");
-		msgMap2.put("time", "2015-10-02 11:30");
-		msgMap2.put("msg", "尊敬的唐先生，您的10月份房租账单已出，请在10月15日前缴纳租金。");
-		list.add(msgMap2);
-		Map<String, String> msgMap3 = new HashMap<String, String>();
-		msgMap3.put("id", "3");
-		msgMap3.put("time", "2015-10-05 11:00");
-		msgMap3.put("msg", "尊敬的唐先生，您的水费余额已不足，请及时缴纳以避免断水情况的发生。");
-		list.add(msgMap3);
-		
-		map.put("msgs", list);
-		data.setCode("200");
-		data.setMsg("");
-		data.setData(map);
-		
-		return data;
+	public void message(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "self/message", request, response);
 	}
 
 	@RequestMapping(value = "info", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseData info() {
-		ResponseData data = new ResponseData();
-		
-		Map<String, String> infoMap = new HashMap<String, String>();
-		infoMap.put("name", "唐先生");
-		infoMap.put("id", "430525198701011234");
-		infoMap.put("sex", "1");
-		infoMap.put("birth", "1987-01-01");
-		infoMap.put("age", "28");
-		infoMap.put("profession", "程序员");
-		infoMap.put("corp", "IBM");
-		infoMap.put("avatar", "http://218.80.0.218:12301/avatar.jpg");
-		infoMap.put("id_photo_front", "http://218.80.0.218:12301/id_photo_front.jpg");
-		infoMap.put("id_photo_back", "http://218.80.0.218:12301/id_photo_back.jpg");
-
-		data.setCode("200");
-		data.setMsg("");
-		data.setData(infoMap);
-		
-		return data;
+	public void info(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "self/info", request, response);
 	}
 
 	@RequestMapping(value = "info/change", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData infoChange(String name, String id, String sex, String birth, String age, String profession,
-			String corp) {
-		ResponseData data = new ResponseData();
-		
-		Map<String, String> infoMap = new HashMap<String, String>();
-		infoMap.put("name", name);
-		infoMap.put("id", id);
-		infoMap.put("sex", sex);
-		infoMap.put("birth", birth);
-		infoMap.put("age", age);
-		infoMap.put("profession", profession);
-		infoMap.put("corp", corp);
-
-		data.setCode("200");
-		data.setMsg("修改成功");
-		data.setData(infoMap);
-		
-		return data;
+	public void infoChange(HttpServletRequest request,HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "self/info/change", request, response);
 	}
 
 	@RequestMapping(value = "ic", method = RequestMethod.POST)
@@ -202,7 +143,7 @@ public class SelfController extends BaseController {
 		}
 
 		try {
-			FileOutputStream out = new FileOutputStream(pic_url  + newFileName);
+			FileOutputStream out = new FileOutputStream(path+"\\"  + newFileName);
 			// 写入文件
 			out.write(filedata.getBytes());			
 			out.flush();
