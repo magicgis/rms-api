@@ -267,4 +267,10 @@ public class HouseController extends BaseController {
 	public void contract(HttpServletRequest request, HttpServletResponse response) {
 		HttpClientUtil.doPost(getRmsUrl(), "house/contract", request, response);
 	}
+	
+	@RequestMapping(value="pay_sign/booked",method=RequestMethod.POST)
+	@ResponseBody
+	public void paysignBooked(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/pay_sign_booked", request, response);
+	}
 }
