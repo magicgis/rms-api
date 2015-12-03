@@ -88,7 +88,7 @@ public class SelfController extends BaseController {
 
 		data.setCode("200");
 		data.setMsg("上传成功");
-		data.setData(request.getContextPath()+pic_url  + newFileName);
+		//data.setData(request.getContextPath()+pic_url  + newFileName);
 		
 		return data;
 	}
@@ -124,7 +124,7 @@ public class SelfController extends BaseController {
 
 		data.setCode("200");
 		data.setMsg("上传成功");
-		data.setData(request.getContextPath()+pic_url  + newFileName);
+		//data.setData(request.getContextPath()+pic_url  + newFileName);
 		
 		return data;
 	}
