@@ -59,29 +59,30 @@ public class SelfController extends BaseController {
 
 	@RequestMapping(value = "ic", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData uploadIc(@RequestParam(value = "front") MultipartFile filedata,@RequestParam(value = "back") MultipartFile filedataBack, HttpServletRequest request) {
+	public ResponseData uploadIc(@RequestParam(value = "front") MultipartFile filedata,@RequestParam(value = "back") MultipartFile filedataBack, HttpServletRequest request,HttpServletResponse response) {
 		ResponseData data = new ResponseData();
 
 		if (StringUtils.isEmpty(filedata) ||StringUtils.isEmpty(filedataBack)) {
 			data.setCode("101");
 			return data;
-		}
-		// 保存相对路径到数据库 图片写入服务器
-		// 获取图片的文件名
-		String fileName = filedata.getOriginalFilename();
-		// 获取图片的扩展名
-		String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
-		// 新的图片文件名 = 获取时间戳+"."图片扩展名
-		String newFileName = String.valueOf(System.currentTimeMillis()) + "." + extensionName;
+		}	
 		String realPathDir =request.getSession().getServletContext().getRealPath(pic_url);
 		try {
 			// TODO : 保存图片URL到用户表
 
-			saveFile(realPathDir, newFileName, filedata);
+			String file = saveFile(realPathDir, filedata);
+			//HttpClientUtil.doPost(getRmsUrl(), "self/info/change", request, response);
+			String attachPath1 = saveFile(realPathDir, filedata);
+			log.debug(attachPath1);
+			request.setAttribute("param_front", attachPath1);
+			String attachPath2 = saveFile(realPathDir, filedataBack);
+			log.debug(attachPath2);
+			request.setAttribute("param_back", attachPath2);
+			HttpClientUtil.doPost(getRmsUrl(), "self/ic", request, response);
 
 		} catch (Exception e) {
 			log.error("上传图片失败.", e);
-			data.setCode("102");
+			data.setCode("500");
 			data.setMsg("上传图片失败");
 			return data;
 		}
@@ -95,25 +96,22 @@ public class SelfController extends BaseController {
 	
 	@RequestMapping(value = "avatar", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData uploadAvatar(@RequestParam(value = "avatar") MultipartFile filedata, HttpServletRequest request) {
+	public ResponseData uploadAvatar(@RequestParam(value = "avatar") MultipartFile filedata, HttpServletRequest request,HttpServletResponse response) {
 		ResponseData data = new ResponseData();
 
 		if (StringUtils.isEmpty(filedata) ) {
 			data.setCode("101");
+			data.setMsg("缺少图片参数");
 			return data;
 		}
-		// 保存相对路径到数据库 图片写入服务器
-		// 获取图片的文件名
-		String fileName = filedata.getOriginalFilename();
-		// 获取图片的扩展名
-		String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
-		// 新的图片文件名 = 获取时间戳+"."图片扩展名
-		String newFileName = String.valueOf(System.currentTimeMillis()) + "." + extensionName;
 		String realPathDir =request.getSession().getServletContext().getRealPath(pic_url);
 		try {
 			// TODO : 保存图片URL到用户表
 
-			saveFile(realPathDir, newFileName, filedata);
+			String attachPath = saveFile(realPathDir, filedata);
+			log.debug(attachPath);
+			request.setAttribute("param_attach_path", attachPath);
+			HttpClientUtil.doPost(getRmsUrl(), "self/avatar", request, response);
 
 		} catch (Exception e) {
 			log.error("上传图片失败.", e);
@@ -129,29 +127,5 @@ public class SelfController extends BaseController {
 		return data;
 	}
 
-	private void saveFile(String path, String newFileName, MultipartFile filedata) {
-		log.debug("path:" + path);
-		log.debug("newFileName:" + newFileName);
-		log.debug("filedata:" + filedata);
-		
-		// 根据配置文件获取服务器图片存放路径
 
-		// 构建文件目录
-		File fileDir = new File(path);
-		if (!fileDir.exists()) {
-			fileDir.mkdirs();
-		}
-
-		try {
-			FileOutputStream out = new FileOutputStream(path+"\\"  + newFileName);
-			// 写入文件
-			out.write(filedata.getBytes());			
-			out.flush();
-			out.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 }

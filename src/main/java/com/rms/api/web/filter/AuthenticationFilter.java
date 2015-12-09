@@ -90,7 +90,7 @@ public class AuthenticationFilter implements Filter{
 		}
 		
 		if(authorized){
-			//response.setContentType("application/x-www-form-urlencoded; charset=utf-8");
+			//response.hsetContentType("application/x-www-form-urlencoded; charset=utf-8");
 			chain.doFilter(request, response);
 		}else{
 			PrintWriter writer = httpResonse.getWriter();

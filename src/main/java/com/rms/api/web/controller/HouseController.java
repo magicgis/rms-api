@@ -1,5 +1,6 @@
 package com.rms.api.web.controller;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +9,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rms.api.web.base.BaseController;
 import com.rms.api.web.entity.ResponseData;
@@ -21,6 +27,12 @@ import com.rms.api.web.util.HttpClientUtil;
 @Controller
 @RequestMapping("house")
 public class HouseController extends BaseController {
+	
+	Logger log = LoggerFactory.getLogger(HouseController.class);
+	
+	@Value("#{configProperties['pic.url']}")
+	private String pic_url;
+	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	@ResponseBody
 	public void list(HttpServletRequest request, HttpServletResponse response) {
@@ -273,4 +285,47 @@ public class HouseController extends BaseController {
 	public void paysignBooked(HttpServletRequest request, HttpServletResponse response) {
 		HttpClientUtil.doPost(getRmsUrl(), "house/pay_sign_booked", request, response);
 	}
+	
+	@RequestMapping(value="repair",method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseData repair(@RequestParam(value = "pic1") MultipartFile pic1, 
+			@RequestParam(value = "pic2") MultipartFile pic2,
+			@RequestParam(value = "pic3") MultipartFile pic3,	
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		ResponseData data = new ResponseData();
+		String realPathDir =request.getSession().getServletContext().getRealPath(pic_url);
+		try {
+			//保存图片并传给后台附件地址
+			StringBuilder attachPath = new StringBuilder();			
+			if(pic1!=null){
+				attachPath.append(saveFile(realPathDir, pic1));
+			}
+			if(pic2!=null){
+				attachPath.append("|");
+				attachPath.append(saveFile(realPathDir, pic2));
+			}
+			if(pic3!=null){
+				attachPath.append("|");
+				attachPath.append(saveFile(realPathDir, pic3));
+			}
+			request.setAttribute("attach_path", attachPath.toString());
+			
+			HttpClientUtil.doPost(getRmsUrl(), "house/repair", request, response);
+
+		} catch (Exception e) {
+			log.error("上传图片失败.", e);
+			
+			data.setCode("102");
+			data.setMsg("上传图片失败");
+			return data;
+		}	
+		
+		data.setCode("200");
+		data.setMsg("上传成功");
+		
+		return data;
+	}
+	
+	
 }
