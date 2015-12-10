@@ -309,7 +309,7 @@ public class HouseController extends BaseController {
 				attachPath.append("|");
 				attachPath.append(saveFile(realPathDir, pic3));
 			}
-			request.setAttribute("attach_path", attachPath.toString());
+			request.setAttribute("param_attach_path", attachPath.toString());
 			
 			HttpClientUtil.doPost(getRmsUrl(), "house/repair", request, response);
 
