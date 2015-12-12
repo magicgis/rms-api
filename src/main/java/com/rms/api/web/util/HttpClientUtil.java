@@ -62,9 +62,18 @@ public class HttpClientUtil {
 		        }
 		      }
 		    };
-		    if(request.getAttribute("mobile")!=null){
-		    	formparams.add(new BasicNameValuePair("mobile", (String) request.getAttribute("mobile")));
-		    }
+		    Enumeration attributeNames = request.getAttributeNames();
+		    while (attributeNames.hasMoreElements()) {
+		      String attributeName = (String) attributeNames.nextElement();
+		      if(attributeName.startsWith("param_") ){
+			      String attributeValue = (String) request.getAttribute(attributeName);
+			      formparams.add(new BasicNameValuePair(attributeName.substring(6),attributeValue));
+		      }
+		       
+		    };
+//		    if(request.getAttribute("mobile")!=null){
+//		    	formparams.add(new BasicNameValuePair("mobile", (String) request.getAttribute("mobile")));
+//		    }
 			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");;
 			post.setEntity(entity);
 			post.setHeader("token", request.getHeader("token"));
