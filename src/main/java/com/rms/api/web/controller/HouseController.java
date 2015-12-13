@@ -105,6 +105,12 @@ public class HouseController extends BaseController {
 		HttpClientUtil.doPost(getRmsUrl(), "house/booked_info", request, response);
 	}
 	
+	@RequestMapping(value="booked/cancel",method=RequestMethod.POST)
+	@ResponseBody
+	public void bookedCancel(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/booked_cancel", request, response);
+	}
+	
 	@RequestMapping(value="sign",method=RequestMethod.POST)
 	@ResponseBody
 	public void sign(HttpServletRequest request, HttpServletResponse response) {
