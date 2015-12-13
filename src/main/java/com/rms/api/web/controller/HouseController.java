@@ -41,37 +41,8 @@ public class HouseController extends BaseController {
 	
 	@RequestMapping(value="ad",method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseData ad() {
-		ResponseData data = new ResponseData();
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		
-		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
-		Map<String,String> adMap = new HashMap<String,String>();
-		adMap.put("id", "1");
-		adMap.put("type", "0");
-		adMap.put("value", "http://218.80.0.218:12301/test.html");
-		adMap.put("url", "http://218.80.0.218:12301/banner1.jpg");
-		list.add(adMap);
-		adMap = new HashMap<String,String>();
-		adMap.put("id", "2");
-		adMap.put("type", "0");
-		adMap.put("value", "http://218.80.0.218:12301/test.html");
-		adMap.put("url", "http://218.80.0.218:12301/banner2.jpg");
-		list.add(adMap);
-		adMap = new HashMap<String,String>();
-		adMap.put("id", "3");
-		adMap.put("type", "1");
-		adMap.put("value", "1001");
-		adMap.put("url", "http://218.80.0.218:12301/banner3.jpg");
-		list.add(adMap);
-		
-		map.put("ad", list);
-		
-		data.setCode("200");
-		data.setMsg("");
-		data.setData(map);
-		return data;
+	public void ad(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/ad", request, response);
 	}
 	
 	@RequestMapping(value="info",method=RequestMethod.GET)
