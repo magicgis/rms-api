@@ -68,15 +68,11 @@ public class SelfController extends BaseController {
 		}	
 		String realPathDir =request.getSession().getServletContext().getRealPath(pic_url);
 		try {
-			// TODO : 保存图片URL到用户表
-
-			String file = saveFile(realPathDir, filedata);
-			//HttpClientUtil.doPost(getRmsUrl(), "self/info/change", request, response);
 			String attachPath1 = saveFile(realPathDir, filedata);
-			log.debug(attachPath1);
+			log.debug("front:" + attachPath1);
 			request.setAttribute("param_front", attachPath1);
 			String attachPath2 = saveFile(realPathDir, filedataBack);
-			log.debug(attachPath2);
+			log.debug("back:" +attachPath2);
 			request.setAttribute("param_back", attachPath2);
 			HttpClientUtil.doPost(getRmsUrl(), "self/ic", request, response);
 

@@ -40,7 +40,7 @@ public class BaseController {
 		// 获取图片的扩展名
 		String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
 		// 新的图片文件名 = 获取时间戳+"."图片扩展名
-		String newFileName = String.valueOf(System.currentTimeMillis()) + "." + extensionName;
+		String newFileName = String.valueOf(System.nanoTime()) + "." + extensionName;
 		//String realPathDir =request.getSession().getServletContext().getRealPath(pic_url);
 	
 		
@@ -66,6 +66,6 @@ public class BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return pic_url + newFileName;
+		return "/rms-api" + pic_url + newFileName;
 	}
 }
