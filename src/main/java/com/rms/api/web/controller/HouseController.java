@@ -47,6 +47,9 @@ public class HouseController extends BaseController {
 	HttpClientUtil.doPost(getRmsUrl(), "house/ad", request, response);
     }
 
+    /**
+     * 房屋详情
+     */
     @RequestMapping(value = "info", method = RequestMethod.GET)
     @ResponseBody
     public void info(HttpServletRequest request, HttpServletResponse response) {
