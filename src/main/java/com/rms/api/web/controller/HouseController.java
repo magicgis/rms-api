@@ -1,5 +1,7 @@
 package com.rms.api.web.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +49,9 @@ public class HouseController extends BaseController {
 	HttpClientUtil.doPost(getRmsUrl(), "house/ad", request, response);
     }
 
+    /**
+     * 房屋详情
+     */
     @RequestMapping(value = "info", method = RequestMethod.GET)
     @ResponseBody
     public void info(HttpServletRequest request, HttpServletResponse response) {
@@ -263,6 +268,22 @@ public class HouseController extends BaseController {
     @ResponseBody
     public void paysignBooked(HttpServletRequest request, HttpServletResponse response) {
 	HttpClientUtil.doPost(getRmsUrl(), "house/pay_sign_booked", request, response);
+    }
+    
+    @RequestMapping(value = "alipaynNotify", method = RequestMethod.POST)
+    public void alipayNotify(HttpServletRequest request, HttpServletResponse response) {
+    	this.log.info("start alipay notify......");
+    	PrintWriter writer = null;
+    	try {
+    		HttpClientUtil.doPost(getRmsUrl(), "house/alipaynNotify", request, response);
+    		writer = response.getWriter();
+    		writer.write("success");
+		} catch (IOException e) {
+			log.error("alipay notify error:",e);
+		} finally {
+			writer.close();
+		}
+    	this.log.info("end alipay notify......");
     }
 
     @RequestMapping(value = "repair", method = RequestMethod.POST)
