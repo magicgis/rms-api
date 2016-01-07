@@ -288,10 +288,12 @@ public class HouseController extends BaseController {
 
     @RequestMapping(value = "repair", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseData repair(@RequestParam(value = "pic1") MultipartFile pic1, @RequestParam(value = "pic2") MultipartFile pic2, @RequestParam(value = "pic3") MultipartFile pic3, HttpServletRequest request, HttpServletResponse response) {
-	ResponseData data = new ResponseData();
+    public ResponseData repair(@RequestParam(required=false, value = "pic1") MultipartFile pic1, @RequestParam(required=false, value = "pic2") MultipartFile pic2, @RequestParam(required=false, value = "pic3") MultipartFile pic3, HttpServletRequest request, HttpServletResponse response) {
+	    log.debug("in repair");
+        ResponseData data = new ResponseData();
 	String realPathDir = request.getSession().getServletContext().getRealPath(pic_url);
-	try {
+	    log.debug(realPathDir);
+        try {
 	    // 保存图片并传给后台附件地址
 	    StringBuilder attachPath = new StringBuilder();
 	    if (pic1 != null) {
@@ -306,7 +308,7 @@ public class HouseController extends BaseController {
 		attachPath.append(saveFile(realPathDir, pic3));
 	    }
 	    request.setAttribute("param_attach_path", attachPath.toString());
-
+            log.debug("param_attach_path:" + attachPath.toString());
 	    HttpClientUtil.doPost(getRmsUrl(), "house/repair", request, response);
 
 	} catch (Exception e) {
