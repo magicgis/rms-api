@@ -232,6 +232,30 @@ public class HouseController extends BaseController {
 	public void paysignBooked(HttpServletRequest request, HttpServletResponse response) {
 		HttpClientUtil.doPost(getRmsUrl(), "house/pay_sign_booked", request, response);
 	}
+	
+	@RequestMapping(value = "pay_sign/sign", method = RequestMethod.POST)
+	@ResponseBody
+	public void paysignSign(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/pay_sign_contract", request, response);
+	}
+	
+	@RequestMapping(value = "recharge", method = RequestMethod.POST)
+	@ResponseBody
+	public void recharge(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/recharge", request, response);
+	}
+	
+	@RequestMapping(value = "checkin_bill", method = RequestMethod.POST)
+	@ResponseBody
+	public void checkinBill(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/checkin_bill", request, response);
+	}
+	
+	@RequestMapping(value = "pay_bill", method = RequestMethod.POST)
+	@ResponseBody
+	public void payBill(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/pay_bill", request, response);
+	}
 
 	@RequestMapping(value = "alipaynNotify", method = RequestMethod.POST)
 	public void alipayNotify(HttpServletRequest request, HttpServletResponse response) {
