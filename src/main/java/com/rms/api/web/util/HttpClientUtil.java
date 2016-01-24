@@ -3,7 +3,9 @@ package com.rms.api.web.util;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,12 +51,13 @@ public class HttpClientUtil {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpPost post = new HttpPost(rmsUrl+url);
 			log.debug(rmsUrl+url);
-			log.debug("params:" + request.getParameterMap());
+			String params = "";
 			List<NameValuePair> formparams = new ArrayList<NameValuePair>();
 		    Enumeration paramNames = request.getParameterNames();
 		    while (paramNames.hasMoreElements()) {
 		      String paramName = (String) paramNames.nextElement();
 		      String[] paramValues = request.getParameterValues(paramName);
+		      params += paramName+":"+request.getParameter(paramName)+",";
 		      if (paramValues.length == 1) {
 		        String paramValue = paramValues[0];
 		        if (paramValue.length() != 0) {
@@ -62,6 +65,7 @@ public class HttpClientUtil {
 		        }
 		      }
 		    };
+		    log.debug("params:[" + params + "]");
 		    Enumeration attributeNames = request.getAttributeNames();
 		    while (attributeNames.hasMoreElements()) {
 		      String attributeName = (String) attributeNames.nextElement();
