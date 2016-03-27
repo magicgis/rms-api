@@ -136,16 +136,8 @@ public class HouseController extends BaseController {
 
 	@RequestMapping(value = "contract/continue", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseData contractContinue(String contract_id, String end_date, String msg) {
-		ResponseData data = new ResponseData();
-		if (StringUtils.isEmpty(contract_id) || StringUtils.isEmpty(end_date)) {
-			data.setCode("101");
-			return data;
-		}
-
-		data.setCode("200");
-		data.setMsg("");
-		return data;
+	public void contractContinue(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/contract_continue", request, response);
 	}
 
 	@RequestMapping(value = "return", method = RequestMethod.POST)
