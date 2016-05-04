@@ -49,4 +49,11 @@ public class SystemController extends BaseController{
 		
 	}
 
+    @RequestMapping(value="scienerToken")
+    @ResponseBody
+    public void scienerToken(HttpServletRequest request,HttpServletResponse response) {
+        HttpClientUtil.doPost(getRmsUrl(), "system/scienerToken", request,response);
+
+    }
+
 }
