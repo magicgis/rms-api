@@ -57,7 +57,11 @@ public class HttpClientUtil {
 		      String[] paramValues = request.getParameterValues(paramName);
 		      params += paramName+":"+request.getParameter(paramName)+",";
 		      if (paramValues.length == 1) {
-		        String paramValue = new String(paramValues[0].getBytes("iso-8859-1"),"UTF-8");
+		    	log.info("======User-Agent:"+request.getHeader("User-Agent"));
+		        String paramValue = paramValues[0];
+		        if(request.getHeader("User-Agent").toLowerCase().contains("android")) {
+		        	paramValue = new String(paramValues[0].getBytes("ISO-8859-1"),"UTF-8");
+		        }
 		        if (paramValue.length() != 0) {
 		        	formparams.add(new BasicNameValuePair(paramName,paramValue));
 		        }
