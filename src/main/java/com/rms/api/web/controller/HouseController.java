@@ -162,22 +162,23 @@ public class HouseController extends BaseController {
 
 	@RequestMapping(value = "keeper/info", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseData keeperInfo() {
-		ResponseData data = new ResponseData();
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		map.put("id", "1");
-		map.put("name", "欧阳夏利");
-		map.put("phone", "13800001111");
-		map.put("photo", "http://218.80.0.218:12301/photo.jpg");
-		map.put("level", "");
-		map.put("agency", "上海房天下有限公司");
-
-		data.setCode("200");
-		data.setMsg("");
-		data.setData(map);
-		return data;
+	public void keeperInfo(HttpServletRequest request, HttpServletResponse response) {
+        HttpClientUtil.doPost(getRmsUrl(), "house/keeper", request, response);
+//		ResponseData data = new ResponseData();
+//
+//		Map<String, Object> map = new HashMap<String, Object>();
+//
+//		map.put("id", "1");
+//		map.put("name", "欧阳夏利");
+//		map.put("phone", "13800001111");
+//		map.put("photo", "http://218.80.0.218:12301/photo.jpg");
+//		map.put("level", "");
+//		map.put("agency", "上海房天下有限公司");
+//
+//		data.setCode("200");
+//		data.setMsg("");
+//		data.setData(map);
+//		return data;
 	}
 
 	@RequestMapping(value = "complain", method = RequestMethod.POST)
