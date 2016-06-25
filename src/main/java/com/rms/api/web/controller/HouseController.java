@@ -2,8 +2,6 @@ package com.rms.api.web.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -96,6 +94,12 @@ public class HouseController extends BaseController {
 	@ResponseBody
 	public void bookingProtocol(HttpServletRequest request, HttpServletResponse response) {
 		HttpClientUtil.doPost(getRmsUrl(), "house/booked_protocol", request, response);
+	}
+	
+	@RequestMapping(value = "booked/protocolById", method = RequestMethod.GET)
+	@ResponseBody
+	public void protocolById(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/booked_protocol_byid", request, response);
 	}
 
 	@RequestMapping(value = "booked/order", method = RequestMethod.POST)
@@ -218,6 +222,12 @@ public class HouseController extends BaseController {
 	@ResponseBody
 	public void contract(HttpServletRequest request, HttpServletResponse response) {
 		HttpClientUtil.doPost(getRmsUrl(), "house/contract", request, response);
+	}
+	
+	@RequestMapping(value = "contractById", method = RequestMethod.GET)
+	@ResponseBody
+	public void contractById(HttpServletRequest request, HttpServletResponse response) {
+		HttpClientUtil.doPost(getRmsUrl(), "house/contractById", request, response);
 	}
 
 	@RequestMapping(value = "pay_sign/booked", method = RequestMethod.POST)

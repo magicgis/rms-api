@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,6 +64,9 @@ public class HttpClientUtil {
 		        if(request.getHeader("User-Agent").toLowerCase().contains("android")) {
 		        	paramValue = new String(paramValues[0].getBytes("ISO-8859-1"),"UTF-8");
 		        }
+		        if(isMessyCode(paramValue)) {
+		        	paramValue = "";
+		        }
 		        if (paramValue.length() != 0) {
 		        	formparams.add(new BasicNameValuePair(paramName,paramValue));
 		        }
@@ -91,7 +96,12 @@ public class HttpClientUtil {
 			response.setContentType("application/json;charset=UTF-8");
 			response.setCharacterEncoding("UTF-8");
 			writer = response.getWriter();
-			writer.write(json);
+			String jsonpcallback = request.getParameter("callback");
+			if(null != jsonpcallback && !jsonpcallback.isEmpty()) {
+				writer.write("jsonpCallback("+json+")");
+			} else {
+				writer.write(json);
+			}
 		} catch (Exception e) {
 			log.error("call dopost error:",e);
 		} finally {
@@ -165,4 +175,42 @@ public class HttpClientUtil {
 		//return json;
 		
 	}
+	
+	public static boolean isMessyCode(String strName) {
+        Pattern p = Pattern.compile("\\s*|t*|r*|n*");
+        Matcher m = p.matcher(strName);
+        String after = m.replaceAll("");
+        String temp = after.replaceAll("\\p{P}", "");
+        char[] ch = temp.trim().toCharArray();
+        float chLength = ch.length;
+        float count = 0;
+        for (int i = 0; i < ch.length; i++) {
+            char c = ch[i];
+            if (!Character.isLetterOrDigit(c)) {
+                if (!isChinese(c)) {
+                    count = count + 1;
+                }
+            }
+        }
+        float result = count / chLength;
+        if (result > 0.4) {
+            return true;
+        } else {
+            return false;
+        }
+ 
+    }
+	
+	public static boolean isChinese(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+            return true;
+        }
+        return false;
+    }
 }
