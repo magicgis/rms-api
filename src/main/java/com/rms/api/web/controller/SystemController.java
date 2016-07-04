@@ -56,4 +56,11 @@ public class SystemController extends BaseController{
 
     }
 
+    @RequestMapping(value="question")
+    @ResponseBody
+    public void question(HttpServletRequest request,HttpServletResponse response) {
+        HttpClientUtil.doPost(getRmsUrl(), "system/question", request,response);
+
+    }
+
 }
