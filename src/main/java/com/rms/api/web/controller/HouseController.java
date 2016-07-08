@@ -184,7 +184,7 @@ public class HouseController extends BaseController {
 //		data.setData(map);
 //		return data;
 	}
-    @RequestMapping(value = "complain", method = RequestMethod.GET)
+    @RequestMapping(value = "complain", method = RequestMethod.POST)
     @ResponseBody
     public void complain(HttpServletRequest request, HttpServletResponse response) {
         HttpClientUtil.doPost(getRmsUrl(), "house/complain", request, response);
