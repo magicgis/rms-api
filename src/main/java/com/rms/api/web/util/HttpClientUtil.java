@@ -60,8 +60,10 @@ public class HttpClientUtil {
 		      params += paramName+":"+request.getParameter(paramName)+",";
 		      if (paramValues.length == 1) {
 		    	log.info("======User-Agent:"+request.getHeader("User-Agent"));
+                  log.info("======contenttype:"+request.getContentType());
 		        String paramValue = paramValues[0];
-		        if(request.getHeader("User-Agent").toLowerCase().contains("android")) {
+
+                  if(request.getHeader("User-Agent").toLowerCase().contains("android")||request.getContentType().toLowerCase().contains("multipart")) {
 		        	paramValue = new String(paramValues[0].getBytes("ISO-8859-1"),"UTF-8");
 		        }
 		        if(isMessyCode(paramValue)) {
