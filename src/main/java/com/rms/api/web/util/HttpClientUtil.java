@@ -61,6 +61,7 @@ public class HttpClientUtil {
 		      params += paramName+":"+request.getParameter(paramName)+",";
 		      if (paramValues.length == 1) {
 		    	log.info("======User-Agent:"+request.getHeader("User-Agent"));
+                  log.info("======contenttype:"+request.getContentType());
 		        String paramValue = paramValues[0];
 		        if(!StringUtils.isEmpty(paramValue) && (!StringUtils.isEmpty(request.getHeader("User-Agent"))
 		        		&& request.getHeader("User-Agent").toLowerCase().contains("android")

@@ -184,21 +184,11 @@ public class HouseController extends BaseController {
 //		data.setData(map);
 //		return data;
 	}
-
-	@RequestMapping(value = "complain", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseData complain(String id, String desc) {
-		ResponseData data = new ResponseData();
-
-		if (id == null || desc == null) {
-			data.setCode("101");
-			return data;
-		}
-
-		data.setCode("200");
-		data.setMsg("");
-		return data;
-	}
+    @RequestMapping(value = "complain", method = RequestMethod.POST)
+    @ResponseBody
+    public void complain(HttpServletRequest request, HttpServletResponse response) {
+        HttpClientUtil.doPost(getRmsUrl(), "house/complain", request, response);
+    }
 
 	@RequestMapping(value = "contract/list", method = RequestMethod.GET)
 	@ResponseBody
