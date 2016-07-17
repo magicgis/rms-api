@@ -19,6 +19,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 public class HttpClientUtil {
 	private static Logger log = LoggerFactory.getLogger(HttpClientUtil.class);
@@ -61,8 +62,11 @@ public class HttpClientUtil {
 		      if (paramValues.length == 1) {
 		    	log.info("======User-Agent:"+request.getHeader("User-Agent"));
 		        String paramValue = paramValues[0];
-		        if(request.getHeader("User-Agent").toLowerCase().contains("android")) {
-		        	paramValue = new String(paramValues[0].getBytes("ISO-8859-1"),"UTF-8");
+		        if(!StringUtils.isEmpty(paramValue) && (!StringUtils.isEmpty(request.getHeader("User-Agent"))
+		        		&& request.getHeader("User-Agent").toLowerCase().contains("android")
+		        		|| (!StringUtils.isEmpty(request.getContentType()) && request.getContentType().toLowerCase().contains("multipart"))
+		        		)) {
+		        	paramValue = new String(paramValue.getBytes("ISO-8859-1"),"UTF-8");
 		        }
 		        if(isMessyCode(paramValue)) {
 		        	paramValue = "";
