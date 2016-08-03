@@ -63,12 +63,15 @@ public class HttpClientUtil {
 		    	log.info("======User-Agent:"+request.getHeader("User-Agent"));
                   log.info("======contenttype:"+request.getContentType());
 		        String paramValue = paramValues[0];
-		        if(!StringUtils.isEmpty(paramValue) && (!StringUtils.isEmpty(request.getHeader("User-Agent"))
-		        		&& request.getHeader("User-Agent").toLowerCase().contains("android")
-		        		|| (!StringUtils.isEmpty(request.getContentType()) && request.getContentType().toLowerCase().contains("multipart"))
-		        		)) {
-		        	paramValue = new String(paramValue.getBytes("ISO-8859-1"),"UTF-8");
-		        }
+                  log.info("paramValue:" + paramValue);
+		        if(  !StringUtils.isEmpty(paramValue) ){
+                    //android 非multipart 参数要转换    ios multipart 参数要转换
+                    boolean isMultipart = !StringUtils.isEmpty(request.getContentType()) && request.getContentType().toLowerCase().contains("multipart");
+                    boolean isAndroid = !StringUtils.isEmpty(request.getHeader("User-Agent")) && request.getHeader("User-Agent").toLowerCase().contains("android");
+                    if  ( (isAndroid && !isMultipart) || (!isAndroid && isMultipart) ) {
+                            paramValue = new String(paramValue.getBytes("ISO-8859-1"),"UTF-8");
+                        }
+                }
 		        if(isMessyCode(paramValue)) {
 		        	paramValue = "";
 		        }
