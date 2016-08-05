@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh">
+	<head>
+		<title>唐巢人才公寓定金协议</title>
+		<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+	</head>
+	<body>
+		
+	</body>
+	<script type="text/javascript">
+		var url = window.location.href;
+		var id = url.substring(url.lastIndexOf('id')+2);
+		$.ajax({url:"http://rms.tangroom.com:12301/rms-api/house/booked/protocolById?id"+id,
+			dataType:"jsonp",
+			jsonpCallback:"jsonpCallback",
+			success:function(data){
+				var content = data.data.str_html;
+				$("body").html(content);
+		}});
+	</script>
+</html>
