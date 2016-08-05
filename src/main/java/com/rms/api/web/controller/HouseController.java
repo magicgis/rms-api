@@ -1,24 +1,14 @@
 package com.rms.api.web.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -260,18 +250,6 @@ public class HouseController extends BaseController {
 		HttpClientUtil.doPost(getRmsUrl(), "house/pay_bill", request, response);
 	}
 	
-    @RequestMapping(value = "downloadAPKFile", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> downloadAPKFile() throws IOException {
-	Resource resource = new ClassPathResource("/application.properties");
-	Properties props = PropertiesLoaderUtils.loadProperties(resource);
-	File file = new File(props.getProperty("apk.file.Path"));
-        String fileName = new String(file.getName().getBytes("utf-8"),"ISO-8859-1");//处理显示中文文件名的问题
-        HttpHeaders headers = new HttpHeaders();
-	headers.setContentDispositionFormData("attachment",fileName ); 
-	headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-	return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
-    }
-
 	@RequestMapping(value = "alipaynNotify", method = RequestMethod.POST)
 	public void alipayNotify(HttpServletRequest request, HttpServletResponse response) {
 		this.log.info("start alipay notify......");
